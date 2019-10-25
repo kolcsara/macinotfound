@@ -6,12 +6,13 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
-    "express-formidable": "^1.2.0",
+    "@google-cloud/speech": "^3.3.2",
     "body-parser": "^1.19.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.2",
     "express": "~4.16.1",
+    "express-formidable": "^1.2.0",
     "nodemon": "^1.19.4"
   }
 }
