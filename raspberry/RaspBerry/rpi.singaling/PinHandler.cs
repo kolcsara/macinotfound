@@ -1,4 +1,3 @@
-﻿
 using System;
 using Windows.Devices.Gpio;
 
@@ -6,7 +5,21 @@ namespace rpi.singaling
 {
     public static class PinHandler
     {
-        public static GpioController GpioController => GpioController.GetDefault();
+        public static EventHandler PinStateChangeEvent;
+
+        public static GpioController GpioController = GpioController ?? GpioController.GetDefault();
+
+        private static bool _isWritingHigh = false;
+
+        public static bool IsWritingHigh
+        {
+            get => _isWritingHigh;
+            set
+            {
+                _isWritingHigh = value;
+                PinStateChangeEvent?.Invoke(null, null);
+            }
+        }
 
         //this method returns an object for multiple reference avoiding
         public static object OpenPin(int pinNumber)
@@ -18,16 +31,13 @@ namespace rpi.singaling
             return pin;
         }
 
-        public static object OpenDefaultPin()
-        {
-            return OpenPin(3);
-        }
-
         public static void SetHighOutputOnPin(this object pinAsObject)
         {
             var pin = pinAsObject as GpioPin;
 
             pin.Write(GpioPinValue.High);
+
+            IsWritingHigh = true;
         }
 
         public static void SetLowOutputOnPin(this object pinAsObject)
@@ -35,6 +45,8 @@ namespace rpi.singaling
             var pin = pinAsObject as GpioPin;
 
             pin.Write(GpioPinValue.Low);
+
+            IsWritingHigh = false;
         }
 
         public static object SetHighOutputOnPin(this int pinAsInteger)
@@ -42,6 +54,8 @@ namespace rpi.singaling
             var pin = OpenPin(pinAsInteger);
 
             (pin as GpioPin).Write(GpioPinValue.High);
+
+            IsWritingHigh = true;
 
             return pin;
         }
@@ -51,6 +65,8 @@ namespace rpi.singaling
             var pin = OpenPin(pinAsInteger);
 
             (pin as GpioPin).Write(GpioPinValue.Low);
+
+            IsWritingHigh = false;
 
             return pin;
         }
@@ -72,6 +88,16 @@ namespace rpi.singaling
 
             pin = null;
             pinAsObject = null;
+        }
+
+        public static void CloseDefaultPin()
+        {
+            ClosePin(3);
+        }
+
+        public static object OpenDefaultPin()
+        {
+            return OpenPin(3);
         }
     }
 }
