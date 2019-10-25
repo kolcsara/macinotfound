@@ -2,6 +2,7 @@ const fs = require('fs'),
   eformidable = require('express-formidable'),
   speech = require('@google-cloud/speech');
 const router = require('express').Router();
+const mongo = require('../managers/mongoAcces');
 
 const uploadDir = ('./uploadDir');
 if (!fs.existsSync(uploadDir)) {
@@ -76,6 +77,7 @@ router.post('/api/mp3', async (req, res) => {
   const [response] = await client.recognize(request);
   const words = response.results.map(result => result.alternatives[0].transcript).join('\n');
   const sendBack = assembelMessage(words);
+  mongo.logToMongo(sendBack);
   res.json(sendBack);
 });
 
