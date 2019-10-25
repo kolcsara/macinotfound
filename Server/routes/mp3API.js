@@ -1,7 +1,14 @@
 const router = require('express').Router();
 
-router.put('/', (req, res) => {
-  res.render('index', { title: 'Express' });
+router.post('/api/mp3', (req, res) => {
+  console.log(req);
+  const message = {
+    warningLevel: 'High',
+    coordinates: 'Itt ne',
+    animalObserved: 'Medve',
+    voiceToPlay: 'medve.mp3',
+  };
+  res.json(message);
 });
 
 module.exports = router;
