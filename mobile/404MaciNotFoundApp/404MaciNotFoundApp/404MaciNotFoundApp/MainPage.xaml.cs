@@ -16,7 +16,7 @@ namespace _404MaciNotFoundApp
         public MainPage()
         {
             InitializeComponent();
-            Browser.Source = "https://google.com";
+            Browser.Source = "http://localhost:5500/api/mp3";
         }
     }
 }
