@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Windows.Devices.Gpio;
 
 namespace rpi.singaling
@@ -15,6 +16,11 @@ namespace rpi.singaling
             pin.SetDriveMode(GpioPinDriveMode.Output);
 
             return pin;
+        }
+
+        public static object OpenDefaultPin()
+        {
+            return OpenPin(3);
         }
 
         public static void SetHighOutputOnPin(this object pinAsObject)

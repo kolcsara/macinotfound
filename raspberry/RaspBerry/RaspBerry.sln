@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29418.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "client.UWP", "client.UWP\client.UWP.csproj", "{6638BF0B-B974-40BC-A949-5646C95B2F50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rpi.singaling", "rpi.singaling\rpi.singaling.csproj", "{FFC0E69C-4F76-413D-B366-76BB9F169920}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rpi.singaling", "rpi.singaling\rpi.singaling.csproj", "{FFC0E69C-4F76-413D-B366-76BB9F169920}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rpi.api", "rpi.api\rpi.api.csproj", "{7CB8D44C-911B-4F75-9178-A6228DD38188}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
