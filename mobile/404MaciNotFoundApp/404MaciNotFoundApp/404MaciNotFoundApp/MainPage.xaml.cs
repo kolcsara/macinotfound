@@ -16,7 +16,7 @@ namespace _404MaciNotFoundApp
         public MainPage()
         {
             InitializeComponent();
-            Browser.Source = "https://goo.gl/maps/zUtNdJSJvEyDvAiz7";
+            Browser.Source = "http://127.0.0.1:5500/index.html";
         }
     }
 }
