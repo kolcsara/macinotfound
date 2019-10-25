@@ -1,11 +1,17 @@
-var express = require('express');
-var mp3API = require('./routes/mp3API');
+const express = require('express');
+const mp3API = require('./routes/mp3API');
+const mongo = require('./managers/mongoAcces');
 
-var app = express();
+const app = express();
+async function start() {
+  await mongo.mongoStart();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
 
-app.use('/', mp3API);
+  app.use('/', mp3API);
 
-app.listen(5500,() => {console.log('App listens...');});
+  app.listen(5500, () => { console.log('App listens...'); });
+}
+
+start();
