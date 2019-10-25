@@ -3,3 +3,12 @@
 User storykat felbontani kissebb user storykra
 Mindenki a sajat reszet ugy csinalja ahogy szeretne, de nem art vegen masoknak elmagyarazni a PullRequest / MergeRequest alatt!
 Develop szent! (Nem tudom itt hogy kell levedeni!)
+
+_____________________________________________________
+Google Speeh To text Credentials:
+Client-ID: 
+922105165096-4mpqmnoq838j5vedjc921vqkl831h6nv.apps.googleusercontent.com
+Client-Secret:
+zJnT-5-gQdQP865_t8TyVSN-
+
+_____________________________________________________
