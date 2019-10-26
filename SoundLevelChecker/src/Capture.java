@@ -1,5 +1,6 @@
-import java.awt.BorderLayout;
-import java.awt.Container;
+import javax.swing.*;
+import java.awt.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
@@ -15,10 +16,14 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
-import javax.swing.JButton;
-import javax.swing.JFrame;
+
 
 public class Capture extends JFrame {
+	
+	private JPanel contentPanel;
+	private JPanel northPanel;
+	private JButton captureButton;
+	private JTextField dBField;
 	
 	private ByteArrayOutputStream out;
 	private AudioFormat format;
@@ -29,19 +34,36 @@ public class Capture extends JFrame {
 	private int lastIndex = 0;
 	
 	public Capture() {
+		
 		super("Capture Sound Demo");
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		captureButton = new JButton("Start Capture");
+		captureButton.setEnabled(true);
 		
-		Container content = getContentPane();
-		final JButton capture = new JButton("Capture");
+		dBField = new JTextField("");
+		dBField.setBackground(Color.LIGHT_GRAY);
 		
-		capture.setEnabled(true);
-		capture.addActionListener(new ActionListener() {
+        northPanel = new JPanel();
+        northPanel.setLayout(new BorderLayout());
+        
+        northPanel.add(captureButton,BorderLayout.WEST);
+        northPanel.add(dBField,BorderLayout.CENTER);
+        
+        contentPanel = new JPanel();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.add(northPanel,BorderLayout.NORTH);
+        
+        this.setBounds(10, 10, 600, 400);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+        
+        this.setContentPane(contentPanel);
+		
+		captureButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				capture.setEnabled(false);
+				captureButton.setEnabled(false);
 				try {
 					captureAudio();
 				} catch (LineUnavailableException e) {
@@ -49,9 +71,8 @@ public class Capture extends JFrame {
 				}
 			}
 		});
-		content.add(capture,BorderLayout.NORTH);
 		        
-		for(int i = 0 ;i < 100; i++) {
+		for(int i = 0 ; i < 100; i++) {
 			history[i] = 0;
 		}
 	}
@@ -76,21 +97,22 @@ public class Capture extends JFrame {
 	}
 	      
 	private void logToHistory(int toAdd) {
-		if(lastIndex < 99) {
+		if (lastIndex < 99) {
 			lastIndex++;
-			history[lastIndex]=toAdd;
+			history[lastIndex] = toAdd;
 		} else {
-			for(int i = 0; i < 99; i++)history[i] = history[i+1];
+			for(int i = 0; i < 99; i++) history[i] = history[i+1];
 			history[100] = toAdd;
 		}
 		    	  
 		for(int i = 0; i< 100; i++)
-		System.out.print(history[i]+" ");
+			System.out.print(history[i] + " ");
 		System.out.print("\n");
 	}
 	      
 	      
 	private void captureAudio() throws LineUnavailableException {
+		
 		final AudioFormat format = getFormat();
 		DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
 		final TargetDataLine line = (TargetDataLine)
