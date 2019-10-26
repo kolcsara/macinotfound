@@ -21,7 +21,7 @@ public class Capture extends JFrame {
 	
 	private JPanel contentPanel;
 	private JPanel northPanel;
-	private JButton captureButton;
+	private JButton listenButton;
 	private JTextField dBField;
 	private PlotPanel plotPanel;
 	
@@ -38,24 +38,26 @@ public class Capture extends JFrame {
 		
 		super("Capture Sound Demo");
 		
-		captureButton = new JButton("Start Capture");
-		captureButton.setEnabled(true);
+		listenButton = new JButton("Start to listen");
+		listenButton.setEnabled(true);
 		
 		dBField = new JTextField("10");
 		dBField.setBackground(Color.LIGHT_GRAY);
 		
+		GridLayout experimentLayout = new GridLayout(0,2);
         northPanel = new JPanel();
-        northPanel.setLayout(new BorderLayout());
-        
-        northPanel.add(captureButton,BorderLayout.WEST);
-        northPanel.add(dBField,BorderLayout.CENTER);
+        northPanel.setLayout(experimentLayout);
+
+        northPanel.add(listenButton);
+        northPanel.add(dBField);
         
         for(int i = 0 ; i < history.length; i++) {
 			history[i] = 0;
 		}
         
-        plotPanel = new PlotPanel(history);
-        
+        plotPanel = new PlotPanel(history,minDBValue);
+        plotPanel.setBorder(BorderFactory.createMatteBorder(
+                5, 5, 5, 5, Color.DARK_GRAY));
         
         contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout());
@@ -68,11 +70,11 @@ public class Capture extends JFrame {
         
         this.setContentPane(contentPanel);
 		
-		captureButton.addActionListener(new ActionListener() {
+        listenButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				captureButton.setEnabled(false);
+				listenButton.setEnabled(false);
 				try {
 					captureAudio();
 				} catch (LineUnavailableException e) {
@@ -157,7 +159,7 @@ public class Capture extends JFrame {
 						}
 					}
 				    logToHistory(maxim);
-				    plotPanel.refresh(history);
+				    plotPanel.refresh(history, minDBValue);
 					plotPanel.repaint();
 				}
 			}
