@@ -16,7 +16,7 @@ namespace _404MaciNotFoundApp
         public MainPage()
         {
             InitializeComponent();
-            Browser.Source = "http://127.0.0.1:5500/index.html";
+            Browser.Source = "192.168.0.166:5500/index.html";
         }
     }
 }
