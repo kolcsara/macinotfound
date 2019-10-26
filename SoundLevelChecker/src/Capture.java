@@ -23,6 +23,7 @@ import javax.swing.JFrame;
 public class Capture extends JFrame {
       private ByteArrayOutputStream out;
       private AudioFormat format;
+      private String path = "C:\\Users\\Istvan\\Desktop\\alfa";
       int history[] = new int[100];
       int noiseLevel = 0;
       int lastIndex = 0;
@@ -109,7 +110,8 @@ public class Capture extends JFrame {
                     }else if(wasNoisy) {
                     	try {
                     		wasNoisy = false;
-							save(Paths.get("C:\\Users\\kecse\\LogMap\\"+ System.currentTimeMillis() +".wav").toFile());
+                    		out.write(buffer, 0, count);
+							save(Paths.get(path+ System.currentTimeMillis() +".wav").toFile());
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
