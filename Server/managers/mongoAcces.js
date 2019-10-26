@@ -19,12 +19,11 @@ class Mongo {
     await this.client.db('safeNature').collection('logger').insertOne(toPut);
   }
 
-  async getLast24(){
-    return await this.client.db('safeNature').collection('logger').find({
-      dateTime: { $lte: new Date(), $gte: new Date(new Date().setDate(new Date().getDate()-1))}})
-      .sort({dateTime: -1}).toArray();
+  async getLast24() {
+    return this.client.db('safeNature').collection('logger').find(/* { dateTime: { $lte: new Date(), $gte: new Date(new Date().setDate(new Date().getDate() - 1)) } } */)
+      .sort({ dateTime: -1 })
+      .toArray();
   }
-
 }
 
 module.exports = new Mongo();
