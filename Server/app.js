@@ -1,5 +1,6 @@
 const express = require('express');
 const mp3API = require('./routes/mp3API');
+const webAPI = require('./routes/webAPI');
 const mongo = require('./managers/mongoAcces');
 
 const app = express();
@@ -10,6 +11,7 @@ async function start() {
   app.use(express.urlencoded({ extended: false }));
 
   app.use('/', mp3API);
+  app.use('/', webAPI);
 
   app.listen(5500, () => { console.log('App listens...'); });
 }
