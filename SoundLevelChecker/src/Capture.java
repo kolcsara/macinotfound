@@ -50,9 +50,11 @@ public class Capture extends JFrame {
 	private ByteArrayOutputStream out;
 	private AudioFormat format;
 	private int minDBValue = 10;
-	private int normalizerValue = 8;
+
+	private String osXPath = "./";
+	private String windowsPath = "C://";
+	private String path = osXPath;
 	
-	private String path = "./";
 	private String url = "http://192.168.0.75:5500/api/mp3";
 	private int history[] = new int[40];
 	
@@ -120,9 +122,14 @@ public class Capture extends JFrame {
 	private int max(byte[] arr) {
 		int giveBack = 0;
 		for(int i = 0; i < arr.length; i++ )
-			if(arr[i]> giveBack) giveBack = arr[i];
-		
-		return giveBack / normalizerValue;
+		{
+			byte shifted = (byte) (arr[i] >> 1);
+			if(arr[i]> giveBack) 
+			{
+				giveBack = shifted;
+			}
+		}
+		return giveBack;
 	}
 	      
 	public void save(File file) throws IOException {
@@ -194,7 +201,7 @@ public class Capture extends JFrame {
                     	out.write(buffer, 0, count);
                     }else if(wasNoisy) {
                     	try {
-                    		//out.write(buffer, 0, count);
+                    		out.write(buffer, 0, count);
                     		wasNoisy = false;
                     		File f = Paths.get(path+ System.currentTimeMillis() +".wav").toFile();
                     		filesToSend.add(f);
@@ -239,7 +246,7 @@ public class Capture extends JFrame {
       
       
       private AudioFormat getFormat() {
-        float sampleRate = 16000.0F;
+        float sampleRate = 32000;
         int sampleSizeInBits = 16;
         int channels = 1;
         boolean signed = true;
