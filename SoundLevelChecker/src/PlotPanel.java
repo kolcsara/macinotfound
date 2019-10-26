@@ -5,11 +5,11 @@ import java.awt.*;
 
 public class PlotPanel extends JPanel {
 
-	private int history[] = new int[100];
+	private int history[];
 	
     public PlotPanel(int[] history){
         setBackground(Color.LIGHT_GRAY);
-        
+        this.history = new int[history.length];
         for(int i = 0 ; i < history.length; i++) {
     		this.history[i] = history[i];
     	}
@@ -25,7 +25,7 @@ public class PlotPanel extends JPanel {
         super.paintComponent(g);
         g.setColor(Color.BLUE);
         for (int i = 0; i < history.length; i++) {
-            g.fillOval(i*10, (-1)*history[i]+200, 10, 10);
+            g.fillRect(i*10, (-1)*history[i]+200, 10, 2*history[i]);
         }
     }
 }
