@@ -50,8 +50,9 @@ public class Capture extends JFrame {
 	private ByteArrayOutputStream out;
 	private AudioFormat format;
 	private int minDBValue = 10;
+	private int normalizerValue = 8;
 	
-	private String path = "\/Users\/attila.kolcsar\/MaciSandbox";
+	private String path = "./";
 	private String url = "http://192.168.0.75:5500/api/mp3";
 	private int history[] = new int[40];
 	
@@ -120,7 +121,8 @@ public class Capture extends JFrame {
 		int giveBack = 0;
 		for(int i = 0; i < arr.length; i++ )
 			if(arr[i]> giveBack) giveBack = arr[i];
-		return giveBack;
+		
+		return giveBack / normalizerValue;
 	}
 	      
 	public void save(File file) throws IOException {
@@ -163,9 +165,9 @@ public class Capture extends JFrame {
 
 		HttpEntity multipart = builder.build();
 		uploadFile.setEntity(multipart);
-		CloseableHttpResponse response = httpClient.execute(uploadFile);
-		HttpEntity responseEntity = response.getEntity();
-		System.out.println(responseEntity.toString());
+		httpClient.execute(uploadFile);
+		// HttpEntity responseEntity = response.getEntity();
+		// System.out.println(responseEntity.toString());
 	}     
 
 
@@ -192,7 +194,7 @@ public class Capture extends JFrame {
                     	out.write(buffer, 0, count);
                     }else if(wasNoisy) {
                     	try {
-                    		out.write(buffer, 0, count);
+                    		//out.write(buffer, 0, count);
                     		wasNoisy = false;
                     		File f = Paths.get(path+ System.currentTimeMillis() +".wav").toFile();
                     		filesToSend.add(f);
@@ -215,7 +217,7 @@ public class Capture extends JFrame {
 				
 				while(true) {
 					System.out.println(filesToSend.size()+"");
-					if(!filesToSend.isEmpty()) {
+					if(filesToSend.size()>0) {
 						try {
 							System.out.println("File sent...");
 							send(filesToSend.get(0));
@@ -237,8 +239,8 @@ public class Capture extends JFrame {
       
       
       private AudioFormat getFormat() {
-        float sampleRate = 16000;
-        int sampleSizeInBits = 8;
+        float sampleRate = 16000.0F;
+        int sampleSizeInBits = 16;
         int channels = 1;
         boolean signed = true;
         boolean bigEndian = true;
