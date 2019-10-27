@@ -12,3 +12,23 @@ body {
   margin: 0;
   padding: 0;
 }
+#userPanel{
+  position: absolute;
+  width: 80%;
+  height: 10%;
+  left:0;
+  bottom:0;
+  background-color: rgba(0, 0, 0, 0.356);
+  z-index: 99;
+  border-top-right-radius: 3rem;
+  border-block-color: black;
+  border-style: solid;
+}
+button,input{
+  height: 80%;
+  background-color: rgba(0, 0, 0, 0.486);
+  color: white;
+}
+input{
+  width: 60%;
+}
