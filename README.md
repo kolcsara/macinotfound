@@ -27,8 +27,6 @@ TO get it running:
     download NODE JS
     -npm install
     -npm start
-
-
 _____________________________________________________
 Google Speeh To text Credentials:
 Client-ID: 
