@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Simple Map</title>
+  <meta name="viewport" content="initial-scale=1.0">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- <script src="https://maps.googleapis.com/maps/api/js"></script> -->
+  <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4kXyqxZtMNRfYZwb0PzIKdpfjpoetXLc&callback=initMap" type="text/javascript"></script> -->
+</head>
+
+<body onload="contiuousCall();setup()">
+  <div id="userPanel">
+    <button id="current">Veszélyforrás bejelentése megjelolt alapjan</button>
+    <input id="jajj" type="text" placeholder = "Veszélyforrás, pl Medve" value="Medve"></input>
+    <button id="stat">Statisztika lekerese</button>
+  </div>
+  <div id="map">
+  </div>
+  <script src="./src/script.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4kXyqxZtMNRfYZwb0PzIKdpfjpoetXLc&callback=initMap" type="text/javascript"></script>
+</body>
+
+</html>
