@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -30,10 +32,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 
 import org.apache.http.*;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -50,7 +49,7 @@ public class Capture extends JFrame {
       int history[] = new int[100];
       int noiseLevel = 0;
       int lastIndex = 0;
-      
+
       public Capture() {
         super("Capture Sound Application");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -59,19 +58,19 @@ public class Capture extends JFrame {
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		}
-        
+
         for(int i = 0 ;i < 100; i++) {
         	history[i] = 0;
         }
       }
-      
+
       private int max(byte[] arr) {
     	  int giveBack = 0;
     	  for(int i = 0; i<arr.length;i++ )
     		  if(arr[i]> giveBack) giveBack = arr[i];
     	  return giveBack;
       }
-      
+
       public void save(File file) throws IOException {
     	  format = getFormat();
           byte[] audioData = out.toByteArray();
@@ -81,10 +80,10 @@ public class Capture extends JFrame {
 
           audioInputStream.close();
           out.close();
-          
+
           out = new ByteArrayOutputStream();
       }
-      
+
       private void logToHistory(int toAdd) {
     	  if(lastIndex < 98) {
     		  lastIndex++;
@@ -93,13 +92,13 @@ public class Capture extends JFrame {
     		  for(int i = 0; i < 98; i++)history[i] = history[i+1];
     		  history[99] = toAdd;
     	  }
-    	  
+
     	  //for(int i = 0; i< 100; i++)
     		  //System.out.print(history[i]+" ");
     	  //System.out.print("\n");
       }
-      
-      
+
+
       public void send(File toSend) throws IOException {
     	  CloseableHttpClient httpClient = HttpClients.createDefault();
     	  HttpPost uploadFile = new HttpPost("http://192.168.0.75:5500/api/mp3");
@@ -117,8 +116,8 @@ public class Capture extends JFrame {
     	  HttpEntity responseEntity = response.getEntity();
     	  System.out.println(responseEntity.toString());
       }
-      
-      
+
+
       private void captureAudio() throws LineUnavailableException {
           final AudioFormat format = getFormat();
           DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
@@ -126,12 +125,12 @@ public class Capture extends JFrame {
           AudioSystem.getLine(info);
           line.open(format);
           line.start();
-          
+
           Runnable runner = new Runnable() {
             int bufferSize = (int)format.getSampleRate() * format.getFrameSize();
             byte buffer[] = new byte[bufferSize];
             boolean wasNoisy = false;
-            
+
             public void run() {
             	out = new ByteArrayOutputStream();
                 while (true) {
@@ -149,18 +148,18 @@ public class Capture extends JFrame {
 							save(f);
 							System.out.println("File saved..."+filesToSend.size());
 						} catch (IOException e) {
-							e.printStackTrace();
+								e.printStackTrace();
 						}
                     }
                     logToHistory(maxim);
                 }
             }
           };
-          
+
           Runnable sender = new Runnable() {
 			@Override
 			public void run() {
-				
+
 				while(true) {
 					System.out.println(filesToSend.size()+"");
 					if(!filesToSend.isEmpty()) {
@@ -175,15 +174,15 @@ public class Capture extends JFrame {
 				}
 			}
           };
-          
+
           Thread senderThread = new Thread(sender);
           senderThread.start();
-          
+
           Thread captureThread = new Thread(runner);
           captureThread.start();
       }
-      
-      
+
+
       private AudioFormat getFormat() {
         float sampleRate = 16000;
         int sampleSizeInBits = 8;
@@ -192,8 +191,8 @@ public class Capture extends JFrame {
         boolean bigEndian = true;
         return new AudioFormat(sampleRate, sampleSizeInBits, channels, signed, bigEndian);
       }
-      
+
     public static void main(String args[]) {
        new Capture().setVisible(true);
-      }  
+      }
 }
